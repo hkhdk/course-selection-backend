@@ -5,12 +5,12 @@ spring:
     init:
       mode: always
       schema-locations: classpath:sql/xuanke_db.sql
-#  rabbitmq:
-#    virtual-host: /
-#    host: 127.0.0.1
-#    port: 5672
-#    username: guest
-#    password: guest
+  rabbitmq:
+    virtual-host: /
+    host: 127.0.0.1
+    port: 5672
+    username: guest
+    password: guest
   cloud:
     config:
       enabled: false

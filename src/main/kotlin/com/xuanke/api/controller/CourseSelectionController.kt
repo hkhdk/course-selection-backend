@@ -1,6 +1,7 @@
 package com.xuanke.api.controller
 
 
+import com.xuanke.api.Publisher
 import com.xuanke.api.UserTokenInterceptor
 import com.xuanke.api.badRequest
 import com.xuanke.api.entity.school.CourseSelection
@@ -18,7 +19,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 @RestController
 @RequestMapping("/selection")
 class CourseSelectionController(@Autowired private val _courseSelectionService: CourseSelectionService,
-//    @Autowired private val _publisher: Publisher
+    @Autowired private val _publisher: Publisher
 ) {
     @Component
     private class UserTokenTarget : UserTokenInterceptor.Target {
@@ -63,7 +64,7 @@ class CourseSelectionController(@Autowired private val _courseSelectionService: 
         if (param.studentId == null || param.courseId == null) {
             throw badRequest("sff")
         }
-//        _publisher.sendMsg(param)
+        _publisher.sendMsg(param)
     }
 
 
