@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanke.api.dao.DepartmentMapper">
+    <resultMap id="department" type="com.xuanke.api.entity.school.Department">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <id column="name" jdbcType="VARCHAR" property="name"/>
+        <id column="manager" jdbcType="VARCHAR" property="manager" />
+    </resultMap>
+
+    <select id="listDepartments" resultMap="department">
+        SELECT * FROM departments LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="selectDepartmentByDepartmentId" resultMap="department">
+        SELECT *
+        FROM departments
+        WHERE `id` = #{departmentId}
+    </select>
+
+    <insert id="replaceDepartmentByDepartmentId">
+        REPLACE INTO departments (`id`, `name`, `manager`)
+        VALUES (#{id}, #{name}, #{manager})
+    </insert>
+
+    <delete id="deleteDepartmentByDepartmentId">
+        DELETE FROM departments WHERE id = #{departmentId}
+    </delete>
+</mapper>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanke.api.dao.PermissionMapper">
+    <select id="listPermissionsByUserId">
+        SELECT permission_id
+        FROM user_permissions
+        WHERE user_id = #{userId}
+    </select>
+    <select id="existPermissionByUserId">
+        SELECT COUNT(*)
+        FROM user_permissions
+        WHERE permission_id = #{permissionId}
+          AND user_id = #{userId}
+    </select>
+</mapper>

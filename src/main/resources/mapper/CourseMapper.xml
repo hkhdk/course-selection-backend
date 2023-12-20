@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanke.api.dao.CourseMapper">
+    <resultMap id="course" type="com.xuanke.api.entity.school.Course">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="name" jdbcType="VARCHAR" property="name"/>
+        <association property="teacher" column="teacher_id" select="com.xuanke.api.dao.TeacherMapper.selectTeacherByTeacherId" />
+    </resultMap>
+
+    <select id="listCourses" resultMap="course">
+        SELECT * FROM courses LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countCourses">
+        SELECT COUNT(*) FROM courses
+    </select>
+
+    <select id="selectCourseByCourseId" resultMap="course">
+        SELECT *
+        FROM courses
+        WHERE `id` = #{courseId}
+    </select>
+
+    <select id="isCourseExists">
+        SELECT COUNT(*) FROM courses WHERE `id` = #{courseId}
+    </select>
+
+    <insert id="replaceCourseByCourseId">
+        REPLACE INTO courses (`id`, `name`, `teacher_id`)
+        VALUES (#{id},
+        #{name},
+        #{teacherId})
+    </insert>
+
+    <delete id="deleteCourseByCourseId">
+        DELETE FROM courses WHERE id = #{courseId}
+    </delete>
+</mapper>

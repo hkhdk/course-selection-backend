@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanke.api.dao.TeacherMapper">
+    <resultMap id="teacher" type="com.xuanke.api.entity.school.Teacher">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="name" jdbcType="VARCHAR" property="name"/>
+        <id column="sex" jdbcType="BIT" property="sex"/>
+        <id column="age" jdbcType="INTEGER" property="age"/>
+        <id column="edu_background" jdbcType="VARCHAR" property="eduBackground"/>
+        <id column="title" jdbcType="VARCHAR" property="title"/>
+        <association property="dept" column="dept_id" select="com.xuanke.api.dao.DepartmentMapper.selectDepartmentByDepartmentId" />
+    </resultMap>
+    <select id="listTeachers" resultMap="teacher">
+        SELECT * FROM teachers LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countTeachers">
+        SELECT COUNT(*) FROM teachers
+    </select>
+
+    <!-- 根据教工号查找教师 -->
+    <select id="selectTeacherByTeacherId" resultMap="teacher">
+        SELECT *
+        FROM teachers
+        WHERE `id` = #{teacherId}
+    </select>
+
+    <!-- 修改对应教工号的教师信息 -->
+    <insert id="replaceTeacherByTeacherId">
+        REPLACE INTO teachers (`id`, `name`, `sex`, `age`, `edu_background`, `title`, `dept_id`)
+        VALUES (#{id},
+                #{name},
+                #{sex},
+                #{age},
+                #{eduBackground},
+                #{title},
+                #{dept.id})
+    </insert>
+
+    <!-- 根据教工号删除教师信息 -->
+    <delete id="deleteTeacherByTeacherId">
+        DELETE FROM teachers WHERE id = #{teacherId}
+    </delete>
+</mapper>

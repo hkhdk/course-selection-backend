@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanke.api.dao.CourseSelectionMapper">
+    <resultMap id="courseSelection" type="com.xuanke.api.entity.school.CourseSelection">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <association property="student" column="student_id" select="com.xuanke.api.dao.StudentMapper.selectStudentByStudentId" />
+        <association property="course" column="course_id" select="com.xuanke.api.dao.CourseMapper.selectCourseByCourseId" />
+    </resultMap>
+
+    <select id="listSelections" resultMap="courseSelection">
+        SELECT * FROM course_selections LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countSelections">
+        SELECT COUNT(*) FROM course_selections
+    </select>
+
+    <select id="selectCourseByCourseId" resultMap="courseSelection">
+        SELECT *
+        FROM courses
+        WHERE `id` = #{courseId}
+    </select>
+
+    <insert id="insertSelection">
+        INSERT INTO course_selections (`student_id`, `course_id`)
+        VALUES (#{studentId}, #{courseId})
+    </insert>
+
+    <delete id="deleteSelectionBySelectionId">
+        DELETE FROM course_selections WHERE id = #{selectionId}
+    </delete>
+</mapper>

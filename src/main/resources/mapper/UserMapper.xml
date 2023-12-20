@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanke.api.dao.UserMapper">
+    <resultMap id="user" type="com.xuanke.api.entity.User">
+        <id column="id" property="id"/>
+        <id column="login_name" property="loginName"/>
+        <id column="nickname" property="nickname"/>
+        <id column="create_time" property="createTime"/>
+    </resultMap>
+    <!-- 根据 id 查询用户信息 -->
+    <select id="selectUserByUserId" resultMap="user">
+        SELECT *
+        FROM users
+        WHERE id = #{userId}
+    </select>
+
+    <!-- 账号密码验证 -->
+    <select id="selectUserIdByLoginNameAndPasswordSign">
+        SELECT id
+        FROM users
+        WHERE login_name = #{loginName}
+          AND password_sign = #{passwordSign} LIMIT 1
+    </select>
+
+    <!-- 添加新用户 -->
+    <insert id="insertUser" useGeneratedKeys="true" keyColumn="id" keyProperty="id">
+        INSERT
+        IGNORE INTO users(`login_name`, `password_sign`, `create_time`)
+        VALUES (
+        #{loginName},
+        #{passwordSign},
+        #{createTime}
+        )
+    </insert>
+
+    <select id="listUsers" resultMap="user">
+        SELECT *
+        FROM users LIMIT #{offset}, #{limit}
+    </select>
+</mapper>

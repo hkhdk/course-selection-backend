@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xuanke.api.dao.StudentMapper">
+    <resultMap id="student" type="com.xuanke.api.entity.school.Student">
+        <id column="id" jdbcType="BIGINT" property="id"/>
+        <id column="name" jdbcType="VARCHAR" property="name"/>
+        <id column="sex" jdbcType="BIT" property="sex"/>
+        <id column="age" jdbcType="INTEGER" property="age"/>
+        <id column="class" jdbcType="VARCHAR" property="clazz"/>
+        <association property="dept" column="dept_id" select="com.xuanke.api.dao.DepartmentMapper.selectDepartmentByDepartmentId" />
+    </resultMap>
+
+    <select id="listStudents" resultMap="student">
+        SELECT * FROM students LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="countStudents">
+        SELECT COUNT(*) FROM students
+    </select>
+
+    <select id="selectStudentByStudentId" resultMap="student">
+        SELECT *
+        FROM students
+        WHERE `id` = #{studentId}
+    </select>
+
+    <select id="isStudentExists">
+        SELECT COUNT(*)
+        FROM students
+        WHERE `id` = #{studentId}
+    </select>
+
+    <insert id="replaceStudentByStudentId">
+        REPLACE INTO students (`id`, `name`, `sex`, `age`, `dept_id`, `class`)
+        VALUES (#{id},
+                #{name},
+                #{sex},
+                #{age},
+                #{dept.id},
+                #{clazz})
+    </insert>
+
+    <delete id="deleteStudentByStudentId">
+        DELETE FROM students WHERE id = #{studentId}
+    </delete>
+</mapper>
